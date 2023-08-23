@@ -1,0 +1,60 @@
+record
+no motion
+save frame 001/200 (frame container A)
+record
+no motion
+save frame 002/200 (frame container A)
+.
+.
+.
+record
+no motion
+save frame 199/200 (frame container A)
+record
+no motion
+save frame 200/200 (frame container A)
+record
+no motion
+remove frame 0 (frame container A)
+save frame 200/200 (frame container A)
+.
+.
+.
+record
+no motion
+remove frame 0 (frame container A)
+save frame 200/200 (frame container A)
+record
+motion!
+save frame 0001/4000 (frame container B)
+record
+save frame 0002/4000 (frame container B)
+.
+.
+.
+record
+save frame 3999/4000 (frame container B)
+record
+save frame 4000/4000 (frame container B)
+
+create video
+    add frames from container A
+    add frames from container B
+    save video
+clean container A
+clean container B
+wait(10sec)
+.
+.
+.
+record
+no motion
+save frame 001/200 (frame container A)
+record
+no motion
+save frame 002/200 (frame container A)
+record
+motion!
+save frame 003/200 (frame container A)
+
+
