@@ -1,4 +1,5 @@
 class FrameObj:
-    def __init__(self, frame, catch_time_ms):
-        self.catch_time_ms = catch_time_ms
+    def __init__(self, frame, deltaTime, treshold):
+        self.deltaTime = deltaTime  # time diff from previous frame
         self.frame = frame
+        self.threshold = treshold   # pixel diff from previous frame

@@ -5,9 +5,13 @@ camera -> access to rtsp server (camera)
 '''
 
 import cv2
-from preview import open_preview_window, play_preview, close_preview
-from motionDetection import motion_detection_mask
 
+from Recorder import get_avg_fps, Recorder
+from preview import open_preview_window, play_preview, close_preview
+from motionDetection import motion_detection_mask, put_text_on_image, sum_from_period
+from FrameContainer import FrameContainer
+from FrameObj import FrameObj
+import time
 
 # global setup
 rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
@@ -19,12 +23,25 @@ def never_lost_conn(_rtsp_server: str):
     camera = get_valid_camera_when_ready(_rtsp_server)
     current_frame = None
     previous_frame = None
+    resolution = (int(camera.get(3)), int(camera.get(4)),)
+
+    ## advanced use
+    container_A = FrameContainer(100)
+    container_B = FrameContainer(200)
+    deltaTimer = time.time_ns()
+
+    ## recording
+    RecordingInProgress = False
+    recorder = Recorder("test", resolution)
 
     ## motion detection
     mask_frame = None
 
     ## preview
     open_preview_window("preview_window")
+
+    ## debug data on image
+
 
     # main body of never_lost_conn()
     while True:
@@ -35,12 +52,45 @@ def never_lost_conn(_rtsp_server: str):
             current_frame = save_read_frame(camera)
 
             ## motion detection
-            if not isinstance(current_frame, type(None)) and not isinstance(previous_frame, type(None)):
+            if not isinstance(current_frame, type(None)) and not isinstance(previous_frame, type(None)) and not RecordingInProgress:
                 mask_frame = motion_detection_mask(previous_frame, current_frame)
+                if sum_from_period(container_A) > 10000.0:
+                    RecordingInProgress = True
+
+            ## advenced use
+            if not isinstance(mask_frame, type(None)):
+                if not RecordingInProgress:
+                    deltaTimer = time.time_ns() - deltaTimer
+                    new_frame = FrameObj(current_frame, deltaTimer, mask_frame.sum())
+                    container_A.add_frame(new_frame)
+                    deltaTimer = time.time_ns()
+                else:
+                    deltaTimer = time.time_ns() - deltaTimer
+                    new_frame = FrameObj(current_frame, deltaTimer, mask_frame.sum())
+                    container_B.add_frame(new_frame)
+                    deltaTimer = time.time_ns()
+                    if container_B.is_full():
+                        RecordingInProgress = False
+                        recorder.add_frame_container(container_A)
+                        recorder.add_frame_container(container_B)
+                        recorder.build_clip()
+                        container_B.clear_container_list()
+                        container_A.clear_container_list()
+                        time.sleep(5.0)
+                        deltaTimer = time.time_ns()
+
+
+            ## debug data on image
+            if not isinstance(mask_frame, type(None)):
+                if isinstance(current_frame, type(None)):
+                    raise Exception("WTF??")
+                debug_frame = current_frame.copy()
+                debug_frame = put_text_on_image(debug_frame, str(sum_from_period(container_A)))
+                debug_frame = put_text_on_image(debug_frame, str(get_avg_fps(container_A)), (50, 100))
 
             ## preview
-            if not isinstance(mask_frame, type(None)) and not isinstance(current_frame, type(None)) and not isinstance(previous_frame, type(None)):
-                play_preview(mask_frame)
+            if not isinstance(mask_frame, type(None)):
+                play_preview(debug_frame)
                 print(">>>", mask_frame.sum())
         else:
             # req_neverLostConn
