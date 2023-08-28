@@ -6,6 +6,7 @@ camera -> access to rtsp server (camera)
 
 import cv2
 
+from Phase import Phase
 from Recorder import get_avg_fps, Recorder
 from preview import open_preview_window, play_preview, close_preview
 from motionDetection import motion_detection_mask, put_text_on_image, sum_from_period
@@ -24,6 +25,7 @@ def never_lost_conn(_rtsp_server: str):
     current_frame = None
     previous_frame = None
     resolution = (int(camera.get(3)), int(camera.get(4)),)
+    phase = Phase.CAPTURE
 
     ## advanced use
     container_A = FrameContainer(100)
@@ -47,9 +49,14 @@ def never_lost_conn(_rtsp_server: str):
     while True:
         print("main body")
         if camera_is_valid(camera):
-            # req_neverLostConn
-            previous_frame = current_frame
-            current_frame = save_read_frame(camera)
+            # Capture Phase
+            if phase == Phase.CAPTURE:
+                previous_frame = current_frame
+                current_frame = save_read_frame(camera)
+                if not isinstance(previous_frame, type(None)):
+                    phase = Phase.MOTION_DETECTION
+                else:
+                    print("First frame should be None")
 
             ## motion detection
             if not isinstance(current_frame, type(None)) and not isinstance(previous_frame, type(None)) and not RecordingInProgress:

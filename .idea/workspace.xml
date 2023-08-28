@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Phase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrameContainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/FrameContainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FrameObj.py" beforeDir="false" afterPath="$PROJECT_DIR$/FrameObj.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motionDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/motionDetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/req_neverLostConn.py" beforeDir="false" afterPath="$PROJECT_DIR$/req_neverLostConn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -168,6 +165,14 @@
       <option name="presentableId" value="Default" />
       <updated>1691616370129</updated>
     </task>
+    <task id="LOCAL-00001" summary="add recording feature (inprogress)">
+      <created>1693175785326</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1693175785326</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,5 +187,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add recording feature (inprogress)" />
+    <option name="LAST_COMMIT_MESSAGE" value="add recording feature (inprogress)" />
   </component>
 </project>
