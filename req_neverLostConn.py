@@ -37,9 +37,11 @@ def never_lost_conn(_rtsp_server: str):
 
     ## motion detection
     frames_diff = None
+    ACCURACY = 11000.0
 
     ## preview
     open_preview_window("preview_window")
+    PREVIEW = False
 
 
     # main body of never_lost_conn()
@@ -74,7 +76,7 @@ def never_lost_conn(_rtsp_server: str):
 
         if phase == Phase.MOTION_DETECTION:
             print("MOTION_DETECTION")
-            if sum_from_period(container_A) > 15000.0:
+            if sum_from_period(container_A) > ACCURACY:
                 phase = Phase.RECORD
             else:
                 phase = Phase.CAPTURE
@@ -104,20 +106,16 @@ def never_lost_conn(_rtsp_server: str):
             #current_frame = None
             phase = Phase.CAPTURE
 
-            #// ----------------------------
+# ----------------------------
 
-        ## debug data on image
-        if not isinstance(frames_diff, type(None)):
-            if isinstance(current_frame, type(None)):
-                raise Exception("WTF??")
-            debug_frame = current_frame.copy()
-            debug_frame = put_text_on_image(debug_frame, str(sum_from_period(container_A)))
-            debug_frame = put_text_on_image(debug_frame, str(get_avg_fps(container_A)), (50, 100))
+        if PREVIEW:
+            if not isinstance(frames_diff, type(None)) and not isinstance(current_frame, type(None)):
+                debug_frame = current_frame.copy()
+                debug_frame = put_text_on_image(debug_frame, str(sum_from_period(container_A)))
+                debug_frame = put_text_on_image(debug_frame, str(get_avg_fps(container_A)), (50, 100))
+                play_preview(debug_frame)
 
-        ## preview
-        if not isinstance(frames_diff, type(None)):
-            play_preview(debug_frame)
-
+# ----------------------------
 
     # release resources
     print("release")
