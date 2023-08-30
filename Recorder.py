@@ -1,6 +1,7 @@
 import cv2
 from datetime import date
 from FrameContainer import FrameContainer
+import time
 
 
 class Recorder:
@@ -19,7 +20,7 @@ class Recorder:
         for container in self.frameContainersList:
             fps += get_avg_fps(container)
         fps /= len(self.frameContainersList)
-        recorded = cv2.VideoWriter(self.video_prefix_name + "_" + str(date.today()) + "_" + str(self.ID) + '.mp4',
+        recorded = cv2.VideoWriter(self.video_prefix_name + "_" + str(date.today()) + "_" + str(time.time()) + "_" + str(self.ID) + '.mp4',
                                    cv2.VideoWriter_fourcc(*'MP4V'),
                                    fps, self.resolution)
         self.ID += 1
@@ -36,7 +37,7 @@ def get_avg_fps(_frameContainer: FrameContainer):
     th_len = len(_frameContainer.get_container_list())
     if th_len > 0:
         deltaTime_sum = sum(element.deltaTime for element in _frameContainer.get_container_list())
-        return (deltaTime_sum / th_len)/1000000.0   # for nanosec
+        return th_len / deltaTime_sum
     else:
         return 0.0
 

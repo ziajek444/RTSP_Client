@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Phase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phase.py" beforeDir="false" afterPath="$PROJECT_DIR$/Phase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Timer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Timer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motionDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/motionDetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/req_neverLostConn.py" beforeDir="false" afterPath="$PROJECT_DIR$/req_neverLostConn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -172,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693175785326</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Start state machine">
+      <created>1693254532341</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1693254532341</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,6 +200,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add recording feature (inprogress)" />
-    <option name="LAST_COMMIT_MESSAGE" value="add recording feature (inprogress)" />
+    <MESSAGE value="Start state machine" />
+    <option name="LAST_COMMIT_MESSAGE" value="Start state machine" />
   </component>
 </project>

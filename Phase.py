@@ -5,4 +5,10 @@ from enum import Enum, unique
 class Phase(Enum):
     CAPTURE = 1
     MOTION_DETECTION = 2
-    BLUE = 3
+    DIFF_FRAMES = 3
+    CONTAINER_A = 4
+    RECORD = 5
+    SAVE_CLIP = 6
+    RESET = 7
+
+

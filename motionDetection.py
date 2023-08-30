@@ -7,13 +7,13 @@ THRESHOLDED_IMAGE = 1
 
 def motion_detection_mask(_previous_frame, _current_frame):
     mask1 = cv2.cvtColor(_previous_frame, cv2.COLOR_RGB2GRAY)
-    mask1 = cv2.GaussianBlur(mask1, (21, 21), 0)
+    mask1 = cv2.GaussianBlur(mask1, (25, 25), 0)
 
     mask2 = cv2.cvtColor(_current_frame, cv2.COLOR_RGB2GRAY)
-    mask2 = cv2.GaussianBlur(mask2, (21, 21), 0)
+    mask2 = cv2.GaussianBlur(mask2, (25, 25), 0)
 
     diff = cv2.absdiff(mask1, mask2)
-    threshold = cv2.threshold(diff, 21, 255, cv2.THRESH_BINARY)[THRESHOLDED_IMAGE]
+    threshold = cv2.threshold(diff, 63, 255, cv2.THRESH_BINARY)[THRESHOLDED_IMAGE]
 
     return threshold
 
@@ -35,5 +35,5 @@ def sum_from_period(_frameContainer: FrameContainer):
         treshold_sum = sum(element.threshold for element in _frameContainer.get_container_list())
         return treshold_sum/th_len
     else:
-        return 0
+        return 0.0
 

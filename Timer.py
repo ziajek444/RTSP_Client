@@ -1,7 +1,7 @@
 import time
 
 
-class Timerr:
+class Timer:
     def __init__(self):
         self._start_time = None
 
