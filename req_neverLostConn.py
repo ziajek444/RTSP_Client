@@ -18,7 +18,7 @@ import time
 rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
 
 
-def never_lost_conn(_rtsp_server: str):
+def never_lost_conn(_rtsp_server: str, _source_name: str):
     # init
     print("init")
     camera = get_valid_camera_when_ready(_rtsp_server)
@@ -29,19 +29,21 @@ def never_lost_conn(_rtsp_server: str):
 
     ## advanced use
     container_A = FrameContainer(100)
-    container_B = FrameContainer(200)
+    container_B = FrameContainer(900)
     deltaTimer = time.time()
 
     ## recording
-    recorder = Recorder("test", resolution)
+    recorder = Recorder(_source_name, resolution)
 
     ## motion detection
     frames_diff = None
     ACCURACY = 11000.0
 
     ## preview
-    open_preview_window("preview_window")
     PREVIEW = False
+    if PREVIEW:
+        open_preview_window("preview_window")
+
 
 
     # main body of never_lost_conn()
@@ -96,7 +98,7 @@ def never_lost_conn(_rtsp_server: str):
             print("SAVE_CLIP")
             recorder.add_frame_container(container_A)
             recorder.add_frame_container(container_B)
-            recorder.build_clip()
+            recorder.build_clip(_source_name + "_dir")
             phase = Phase.RESET
 
         if phase == Phase.RESET:
@@ -169,5 +171,5 @@ def save_read_frame(_camera):
         return current_frame
 
 
-fail = never_lost_conn(rtsp_server)
+fail = never_lost_conn(rtsp_server, "Xiaomi")
 print(fail)
