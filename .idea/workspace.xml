@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
+    <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="little preview fix">
+      <change afterPath="$PROJECT_DIR$/CompressFile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Phase.py" beforeDir="false" afterPath="$PROJECT_DIR$/Phase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Timer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Timer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motionDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/motionDetection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/FileManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/req_neverLostConn.py" beforeDir="false" afterPath="$PROJECT_DIR$/req_neverLostConn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,8 +39,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.req_neverLostConn">
-    <configuration name="body" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.CompressFile">
+    <configuration name="CompressFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -54,7 +52,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/body.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CompressFile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -63,7 +61,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mainRTSP" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="FileManagement" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -75,7 +73,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainRTSP.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FileManagement.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,11 +147,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.CompressFile" />
+        <item itemvalue="Python.FileManagement" />
         <item itemvalue="Python.req_neverLostConn" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.tests" />
-        <item itemvalue="Python.mainRTSP" />
-        <item itemvalue="Python.body" />
       </list>
     </recent_temporary>
   </component>
@@ -182,7 +180,28 @@
       <option name="project" value="LOCAL" />
       <updated>1693254532341</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Basic features works">
+      <created>1693428203455</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1693428203455</updated>
+    </task>
+    <task id="LOCAL-00004" summary="little preview fix">
+      <created>1693428581249</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1693428581249</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add file management. Prepare command for compress video clips">
+      <created>1693519434607</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1693519434607</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -201,6 +220,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add recording feature (inprogress)" />
     <MESSAGE value="Start state machine" />
-    <option name="LAST_COMMIT_MESSAGE" value="Start state machine" />
+    <MESSAGE value="Basic features works" />
+    <MESSAGE value="little preview fix" />
+    <MESSAGE value="Add file management. Prepare command for compress video clips" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add file management. Prepare command for compress video clips" />
   </component>
 </project>

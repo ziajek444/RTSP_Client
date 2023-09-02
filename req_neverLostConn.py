@@ -171,5 +171,6 @@ def save_read_frame(_camera):
         return current_frame
 
 
-fail = never_lost_conn(rtsp_server, "Xiaomi")
-print(fail)
+if __name__ == "__main__":
+    fail = never_lost_conn(rtsp_server, "Xiaomi")
+    print(fail)
