@@ -5,7 +5,6 @@ camera -> access to rtsp server (camera)
 '''
 
 import cv2
-
 from Phase import Phase
 from Recorder import get_avg_fps, Recorder
 from preview import open_preview_window, play_preview, close_preview
@@ -14,13 +13,11 @@ from FrameContainer import FrameContainer
 from FrameObj import FrameObj
 import time
 
-# global setup
-rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
+DEBUG = False
 
-
-def never_lost_conn(_rtsp_server: str, _source_name: str):
+def never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False):
     # init
-    print("init")
+    dprint("init")
     camera = get_valid_camera_when_ready(_rtsp_server)
     current_frame = None
     previous_frame = None
@@ -40,16 +37,14 @@ def never_lost_conn(_rtsp_server: str, _source_name: str):
     ACCURACY = 11000.0
 
     ## preview
-    PREVIEW = False
+    PREVIEW = _preview
     if PREVIEW:
         open_preview_window("preview_window")
-
-
 
     # main body of never_lost_conn()
     while True:
         if phase == Phase.CAPTURE:
-            print("CAPTURE")
+            dprint("CAPTURE")
             if camera_is_valid(camera):
                 previous_frame = current_frame
                 deltaTimer = time.time()
@@ -57,12 +52,12 @@ def never_lost_conn(_rtsp_server: str, _source_name: str):
 
                 phase = Phase.CONTAINER_A
             else:
-                print("error CAPTURE phase ")
+                dprint("error CAPTURE phase ")
                 camera = get_valid_camera_when_ready(_rtsp_server)
-                print("reconnected")
+                dprint("reconnected")
 
         if phase == Phase.CONTAINER_A:
-            print("CONTAINER_A")
+            dprint("CONTAINER_A")
             if not isinstance(current_frame, type(None)) and not isinstance(previous_frame, type(None)):
                 frames_diff = motion_detection_mask(previous_frame, current_frame)
                 deltaTimer = time.time() - deltaTimer
@@ -77,14 +72,14 @@ def never_lost_conn(_rtsp_server: str, _source_name: str):
                 phase = Phase.CAPTURE
 
         if phase == Phase.MOTION_DETECTION:
-            print("MOTION_DETECTION")
+            dprint("MOTION_DETECTION")
             if sum_from_period(container_A) > ACCURACY:
                 phase = Phase.RECORD
             else:
                 phase = Phase.CAPTURE
 
         if phase == Phase.RECORD:
-            print("RECORD")
+            dprint("RECORD")
             deltaTimer = time.time()
             while not container_B.is_full():
                 current_frame = save_read_frame(camera)
@@ -95,14 +90,14 @@ def never_lost_conn(_rtsp_server: str, _source_name: str):
             phase = Phase.SAVE_CLIP
 
         if phase == Phase.SAVE_CLIP:
-            print("SAVE_CLIP")
+            dprint("SAVE_CLIP")
             recorder.add_frame_container(container_A)
             recorder.add_frame_container(container_B)
             recorder.build_clip(_source_name + "_dir")
             phase = Phase.RESET
 
         if phase == Phase.RESET:
-            print("RESET")
+            dprint("RESET")
             container_B.clear_container_list()
             container_A.clear_container_list()
             #current_frame = None
@@ -120,12 +115,12 @@ def never_lost_conn(_rtsp_server: str, _source_name: str):
 # ----------------------------
 
     # release resources
-    print("release")
+    dprint("release")
     camera.release()
     ## preview
     close_preview()
     # close
-    print("close")
+    dprint("close")
     return "Error: Could not keep connection stable"
 
 
@@ -133,15 +128,15 @@ def get_valid_camera_when_ready(_rtsp_server: str):
     camera = cv2.VideoCapture()
     camera.setExceptionMode(True)
     while True:
-        print("get_valid_camera_when_ready")
+        dprint("get_valid_camera_when_ready")
         try:
             camera.open(_rtsp_server)
-            print("done")
+            dprint("done")
             break
         except Exception as err:
-            print("Exception catch : [", err, ']')
+            dprint("Exception catch : [", err, ']')
 
-    print("camera connected: ", camera)
+    dprint("camera connected: ", camera)
     return camera
 
 
@@ -153,7 +148,7 @@ def camera_is_valid(_camera):
         else:
             isCameraOpen = False
     except Exception as err:
-        print("Exception catch : [", err, ']')
+        dprint("Exception catch : [", err, ']')
         isCameraOpen = False
     finally:
         return isCameraOpen
@@ -164,13 +159,20 @@ def save_read_frame(_camera):
     try:
         captured, current_frame = _camera.read()
     except Exception as err:
-        print("Exception catch : [", err, ']')
+        dprint("Exception catch : [", err, ']')
         current_frame = None
         _camera.release()
     finally:
         return current_frame
 
 
+def dprint(*args):
+    global DEBUG
+    if DEBUG:
+        print(" ".join(map(str,args)))
+
+
 if __name__ == "__main__":
+    rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
     fail = never_lost_conn(rtsp_server, "Xiaomi")
     print(fail)
