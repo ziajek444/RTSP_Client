@@ -1,16 +1,32 @@
 from multiprocessing import Process
-import os
 from req_neverLostConn import never_lost_conn
-# never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False)
-rtsp_server_PRO = 'https://admin:admin@192.168.0.38:4343/video'
-rtsp_server_OLD = 'https://admin:admin@192.168.0.120:4343/video'
+
+
+def get_https_rstp_server_addr(_login, _passwd, _ip, _port):
+    addr = f"https://{_login}:{_passwd}@{_ip}:{_port}/video"
+    return addr
+
+
+def run(_addr_list: list):
+    processes = list()
+    cam_idx = 1
+    for addr in _addr_list:
+        processes.append(Process(target=never_lost_conn, args=(addr, f"CAM_{cam_idx}",)))
+        cam_idx += 1
+    for proc in processes:
+        proc.start()
+    for proc in processes:
+        proc.join()
+
 
 if __name__ == '__main__':
     print("Start RTSP Stream")
-    p1 = Process(target=never_lost_conn, args=(rtsp_server_PRO, "PRO",))
-    p2 = Process(target=never_lost_conn, args=(rtsp_server_OLD, "OLD",))
-    p1.start()
-    p2.start()
-    p1.join()
-    p2.join()
+
+    rtsp_server_CAM_1 = get_https_rstp_server_addr("admin", "admin", "192.168.0.38", "4343")
+    rtsp_server_CAM_2 = get_https_rstp_server_addr("admin", "admin", "192.168.0.120", "4343")
+    rtsp_server_CAM_3 = get_https_rstp_server_addr("admin", "admin", "192.168.0.22", "4343")
+
+    addr_list = [rtsp_server_CAM_1, rtsp_server_CAM_2, rtsp_server_CAM_3]
+    run(addr_list)
+
     print("FIN")

@@ -4,9 +4,6 @@
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RSTPstream.py" beforeDir="false" afterPath="$PROJECT_DIR$/RSTPstream.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Timer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainRTSP.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/req_neverLostConn.py" beforeDir="false" afterPath="$PROJECT_DIR$/req_neverLostConn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +37,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.req_neverLostConn">
+  <component name="RunManager" selected="Python.RSTPstream">
     <configuration name="CompressFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -148,8 +145,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.req_neverLostConn" />
         <item itemvalue="Python.RSTPstream" />
+        <item itemvalue="Python.req_neverLostConn" />
         <item itemvalue="Python.CompressFile" />
         <item itemvalue="Python.FileManagement" />
         <item itemvalue="Python.test" />
@@ -209,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693676719036</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add runner">
+      <created>1693678996075</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1693678996075</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -232,6 +236,7 @@
     <MESSAGE value="little preview fix" />
     <MESSAGE value="Add file management. Prepare command for compress video clips" />
     <MESSAGE value="added compression/decompression" />
-    <option name="LAST_COMMIT_MESSAGE" value="added compression/decompression" />
+    <MESSAGE value="Add runner" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add runner" />
   </component>
 </project>
