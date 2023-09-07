@@ -10,5 +10,6 @@ class Phase(Enum):
     RECORD = 5
     SAVE_CLIP = 6
     RESET = 7
+    COMPRESS = 8
 
 

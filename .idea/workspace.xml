@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Cloud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RSTPstream.py" beforeDir="false" afterPath="$PROJECT_DIR$/RSTPstream.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CompressFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/CompressFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/FileManagement.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phase.py" beforeDir="false" afterPath="$PROJECT_DIR$/Phase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/req_neverLostConn.py" beforeDir="false" afterPath="$PROJECT_DIR$/req_neverLostConn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +42,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.RSTPstream">
+  <component name="RunManager" selected="Python.req_neverLostConn">
     <configuration name="CompressFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -145,11 +150,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.RSTPstream" />
         <item itemvalue="Python.req_neverLostConn" />
-        <item itemvalue="Python.CompressFile" />
         <item itemvalue="Python.FileManagement" />
+        <item itemvalue="Python.CompressFile" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.RSTPstream" />
       </list>
     </recent_temporary>
   </component>
@@ -213,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693678996075</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="format runner">
+      <created>1693682043553</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1693682043553</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,6 +249,7 @@
     <MESSAGE value="Add file management. Prepare command for compress video clips" />
     <MESSAGE value="added compression/decompression" />
     <MESSAGE value="Add runner" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add runner" />
+    <MESSAGE value="format runner" />
+    <option name="LAST_COMMIT_MESSAGE" value="format runner" />
   </component>
 </project>

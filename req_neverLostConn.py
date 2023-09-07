@@ -5,6 +5,8 @@ camera -> access to rtsp server (camera)
 '''
 
 import cv2
+
+from CompressFile import compress_and_rm_files
 from Phase import Phase
 from Recorder import get_avg_fps, Recorder
 from preview import open_preview_window, play_preview, close_preview
@@ -13,7 +15,10 @@ from FrameContainer import FrameContainer
 from FrameObj import FrameObj
 import time
 
-DEBUG = False
+DEBUG = False           # If True, prints logs on console
+CONTAINER_A_LEN = 10    # Default 100
+CONTAINER_B_LEN = 20    # Default is 900
+
 
 def never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False):
     # init
@@ -25,8 +30,8 @@ def never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False):
     phase = Phase.CAPTURE
 
     ## advanced use
-    container_A = FrameContainer(100)
-    container_B = FrameContainer(900)
+    container_A = FrameContainer(CONTAINER_A_LEN)
+    container_B = FrameContainer(CONTAINER_B_LEN)
     deltaTimer = time.time()
 
     ## recording
@@ -36,10 +41,15 @@ def never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False):
     frames_diff = None
     ACCURACY = 11000.0
 
+    ## compress clip
+    clip_full_path = None
+    CLIPS_IN_ARCH = 4
+    files_list_to_arch = list()
+
     ## preview
     PREVIEW = _preview
     if PREVIEW:
-        open_preview_window("preview_window")
+        open_preview_window(f"preview_window {_source_name}")
 
     # main body of never_lost_conn()
     while True:
@@ -93,7 +103,21 @@ def never_lost_conn(_rtsp_server: str, _source_name: str, _preview=False):
             dprint("SAVE_CLIP")
             recorder.add_frame_container(container_A)
             recorder.add_frame_container(container_B)
-            recorder.build_clip(_source_name + "_dir")
+            clip_full_path = recorder.build_clip(_source_name + "_dir")
+            if isinstance(clip_full_path, type(None)):
+                phase = Phase.RESET
+            else:
+                files_list_to_arch.append(clip_full_path)
+                if len(files_list_to_arch) >= CLIPS_IN_ARCH:
+                    phase = Phase.COMPRESS
+                else:
+                    phase = Phase.RESET
+
+        if phase == Phase.COMPRESS:
+            arch_file_name = str(files_list_to_arch[0].replace('.', '_') + ".7z")
+            compress_and_rm_files(files_list_to_arch, arch_file_name)
+            files_list_to_arch.clear()
+            assert len(files_list_to_arch) == 0
             phase = Phase.RESET
 
         if phase == Phase.RESET:

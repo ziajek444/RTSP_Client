@@ -1,7 +1,5 @@
 import os
 
-##7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on archive.7z dir1
-##adds all files from directory "dir1" to archive archive.7z using "ultra settings"
 
 def create_dir(_newDir: str):
     parenDir = os.getcwd()
@@ -37,18 +35,22 @@ def dir_exists(dir: str):
 
 
 def extract_file_name_from_path(path_to_file: str):
-    extension_exists = path_to_file.find('.') > 1
-    path_to_file = path_to_file.replace('/', '.')
-    path_to_file = path_to_file.replace('\\', '.')
-    splited_path = path_to_file.split('.')
-    if extension_exists:
-        return '.'.join(splited_path[-2:])
-    else:
-        return splited_path[-1]
+    return os.path.basename(path_to_file)
 
 
 def extract_base_path_from_path(path_to_file: str):
     return os.path.dirname(path_to_file)
+
+
+# TODO
+def get_all_files_in_dir(dir: str, expected_ext: str = None):
+    if isinstance(expected_ext, type(None)):
+        # => all files in passed dir
+        return None
+    else:
+        # => all files in passed dir with specified extension
+        return None
+    pass
 
 
 if __name__ == "__main__":

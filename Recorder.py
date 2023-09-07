@@ -18,20 +18,26 @@ class Recorder:
 
     def build_clip(self, _directory="default"):
         fps = 0.0
-        for container in self.frameContainersList:
-            fps += get_avg_fps(container)
-        fps /= len(self.frameContainersList)
-        if not dir_exists(_directory):
-            create_dir(_directory)
-        recorded = cv2.VideoWriter(_directory + "/" + self.video_prefix_name + "_" + str(date.today()) + "_" + str(time.time()) + "_" + '.mp4',
-                                   cv2.VideoWriter_fourcc(*'MP4V'),
-                                   fps, self.resolution)
-        for container in self.frameContainersList:
-            for frame in container:
-                recorded.write(frame.frame)
-
-        recorded.release()
-        self.frameContainersList.clear()
+        recorded = cv2.VideoWriter()
+        try:
+            for container in self.frameContainersList:
+                fps += get_avg_fps(container)
+            fps /= len(self.frameContainersList)
+            if not dir_exists(_directory):
+                create_dir(_directory)
+            clip_fill_name_path = _directory + "/" + self.video_prefix_name + "_" + str(date.today()) + "_" + str(time.time()) + "_" + '.mp4'
+            recorded = cv2.VideoWriter(clip_fill_name_path,
+                                       cv2.VideoWriter_fourcc(*'MP4V'),
+                                       fps, self.resolution)
+            for container in self.frameContainersList:
+                for frame in container:
+                    recorded.write(frame.frame)
+        except Exception as err:
+            clip_fill_name_path = None
+        finally:
+            recorded.release()
+            self.frameContainersList.clear()
+        return clip_fill_name_path
 
 
 
