@@ -1,5 +1,5 @@
 from multiprocessing import Process
-from req_neverLostConn import never_lost_conn
+from main import main_loop
 
 
 def get_https_rstp_server_addr(_login, _passwd, _ip, _port):
@@ -11,7 +11,7 @@ def run(_addr_list: list):
     processes = list()
     cam_idx = 1
     for addr in _addr_list:
-        processes.append(Process(target=never_lost_conn, args=(addr, f"CAM_{cam_idx}",)))
+        processes.append(Process(target=main_loop, args=(addr, f"CAM_{cam_idx}",)))
         cam_idx += 1
     for proc in processes:
         proc.start()

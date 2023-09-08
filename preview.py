@@ -23,3 +23,5 @@ def play_preview(_frame):
 
 def close_preview():
     cv2.destroyAllWindows()
+
+

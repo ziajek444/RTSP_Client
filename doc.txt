@@ -57,4 +57,10 @@ record
 motion!
 save frame 003/200 (frame container A)
 
+##
+Thread working
+##
+Start thread -> pass clip's dir, period time
+
+
 
