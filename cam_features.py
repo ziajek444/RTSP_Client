@@ -12,7 +12,7 @@ from Cloud import upload_files
 ##  -   -   -   -   -   -   -   -   -   -
 
 
-DEBUG = True           # If True, prints logs on console
+DEBUG = False           # If True, prints logs on console
 CONTAINER_A_LEN = 50    # Default 100
 CONTAINER_B_LEN = 100    # Default is 900
 
@@ -84,6 +84,7 @@ class CamData:
 
         ## recording
         self.recorder = Recorder(_source_name, self.resolution)
+        self.con_B_clip_duration = None
 
         ## motion detection
         self.frames_diff = None
@@ -93,6 +94,9 @@ class CamData:
         self.clip_full_path = None
         self.CLIPS_IN_ARCH = 4
         self.files_list_to_arch = list()
+
+        ## cloud data
+        self.dir_id = None
 
     def capture_phase(self):
         dprint("CAPTURE")
@@ -138,12 +142,14 @@ class CamData:
         dprint("RECORD")
         new_phase = None
         self.deltaTimer = time.time()
+        self.con_B_clip_duration = time.time()  # feature: time elapsed during rec only container_B
         while not self.container_B.is_full():
             self.current_frame = save_read_frame(self.camera)
             self.deltaTimer = time.time() - self.deltaTimer
             new_frame = FrameObj(self.current_frame, self.deltaTimer, 0)
             self.deltaTimer = time.time()
             self.container_B.add_frame(new_frame)
+        self.con_B_clip_duration = time.time() - self.con_B_clip_duration
         new_phase = Phase.SAVE_CLIP
         return new_phase
 
@@ -152,7 +158,9 @@ class CamData:
         new_phase = None
         self.recorder.add_frame_container(self.container_A)
         self.recorder.add_frame_container(self.container_B)
-        clip_full_path = self.recorder.build_clip(self.source_name + "_dir")
+        #clip_full_path = self.recorder.build_clip(self.source_name + "_dir")
+        # feature: time elapsed during rec only container_B
+        clip_full_path = self.recorder.build_clip_with_duration_b(self.con_B_clip_duration, self.source_name + "_dir")
         if isinstance(clip_full_path, type(None)):
             new_phase = Phase.RESET
         else:
@@ -163,14 +171,20 @@ class CamData:
                 new_phase = Phase.RESET
         return new_phase
 
-    def compress_phase(self):
+    def compress_phase(self, _disabled=False):
         dprint("COMPRESS")
         new_phase = None
         arch_file_name = str(self.files_list_to_arch[0].replace('.', '_') + ".7z")
-        compress_and_rm_files(self.files_list_to_arch, arch_file_name)
+        if not _disabled:
+            compress_and_rm_files(self.files_list_to_arch, arch_file_name)
         ## TEST  TODO: move it to independent process
-        upload_files([arch_file_name], "18THHfH8QyYyGxgBxCPWEUfMYVO_LR4rg")
+            if self.dir_id:
+                upload_files([arch_file_name], self.dir_id)
+        else:
+            if self.dir_id:
+                upload_files(self.files_list_to_arch, self.dir_id)
         ##  -   -   -   -   -   -   -   -   -   -
+
         self.files_list_to_arch.clear()
         assert len(self.files_list_to_arch) == 0
         new_phase = Phase.RESET
@@ -191,6 +205,9 @@ class CamData:
             debug_frame = put_text_on_image(debug_frame, str(sum_from_period(self.container_A)))
             debug_frame = put_text_on_image(debug_frame, str(get_avg_fps(self.container_A)), (50, 100))
             play_preview(debug_frame)
+
+    def set_dir_id(self, _dir_id: str):
+        self.dir_id = _dir_id
 
     def init_preview(self):
         open_preview_window(f"preview_window {self.source_name}")

@@ -17,14 +17,14 @@ from google_auth_oauthlib.flow import InstalledAppFlow, Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
-
-
-# 18THHfH8QyYyGxgBxCPWEUfMYVO_LR4rg
 from FileManagement import extract_file_name_from_path, extract_base_path_from_path
 
 
+DEBUG_Cloud = False           # If True, prints logs on console
+
+
 def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
-    print("start")
+    dprint("start")
     upload_dir = extract_base_path_from_path(_files[0])
     files_to_upload = [extract_file_name_from_path(path) for path in _files]
 
@@ -38,7 +38,7 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
     creeds = None
 
     if not os.path.exists(CLIENT_SECRETS):
-        print("missing credentials")
+        dprint("missing credentials")
         exit(-1)
 
     if os.path.exists(TOKEN):
@@ -74,14 +74,19 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
                                         mimetype='application/x-7z-compressed')
                 file = service.files().create(body=file_metadata, media_body=media,
                                               fields='id').execute()
-                print(F'File ID: {file.get("id")}')
+                dprint(F'File ID: {file.get("id")}')
         except HttpError as http_err:
             print(http_err)
         except Exception as err:
             print(err)
         finally:
             pass
-    for file_name in files_name:
-        print(file_name)
-    print("done")
+    #for file_name in files_name:
+    #    dprint(file_name)
+    dprint("done")
 
+
+def dprint(*args):
+    global DEBUG_Cloud
+    if DEBUG_Cloud:
+        print(" ".join(map(str, args)))
