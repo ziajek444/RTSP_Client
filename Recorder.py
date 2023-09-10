@@ -47,6 +47,6 @@ def get_avg_fps(_frameContainer: FrameContainer):
         deltaTime_sum = sum(element.deltaTime for element in _frameContainer.get_container_list())
         return th_len / deltaTime_sum
     else:
-        return 0.0
+        return 0.016  # min val
 
 

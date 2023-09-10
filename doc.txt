@@ -1,3 +1,6 @@
+PROBLEMS TODO:
+- clips are saved with 0B which is crashing compressed files
+
 record
 no motion
 save frame 001/200 (frame container A)
@@ -60,7 +63,40 @@ save frame 003/200 (frame container A)
 ##
 Thread working
 ##
-Start thread -> pass clip's dir, period time
+Start thread -> pass clip's dir [c_dir], period time [p_time]
+> wait [p_time]
+> read all files from [c_dir] to [current_files]
+> if [cached_files] is NOT empty
+ > copmpare [cached_files] & [current_files] => [common_files]
+ > upload all common files...
+  > for every common file in [common_files]
+   > check if cloud space is enough
+    > yes->
+      > upload single common file from [common_files]
+      > !!!error -> check if file exists,
+       > yes-> try again
+       > no -> remove this single file from [common_files], [current_files], [cached_files]
+      > check if ile is existing on drive
+       > no -> repat few times
+        > really no -> upload again
+        > check if ile is existing on drive
+         > no -> repat few times
+          > really no -> remove this single file from [common_files], [current_files], [cached_files]
+          ... remove this single file
+
+    > no ->
+
+
+
+
+> if [cached_files] is empty
+ > read all files from [c_dir] to [cached_files]
+> else
+ > read all files from [c_dir] to [current_files]
+
+>
+
+
 
 
 

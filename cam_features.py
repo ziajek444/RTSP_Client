@@ -7,11 +7,14 @@ from FrameContainer import FrameContainer
 from Recorder import Recorder
 from CompressFile import compress_and_rm_files
 from preview import play_preview, close_preview, open_preview_window
+## TEST
+from Cloud import upload_files
+##  -   -   -   -   -   -   -   -   -   -
 
 
 DEBUG = True           # If True, prints logs on console
-CONTAINER_A_LEN = 10    # Default 100
-CONTAINER_B_LEN = 20    # Default is 900
+CONTAINER_A_LEN = 50    # Default 100
+CONTAINER_B_LEN = 100    # Default is 900
 
 
 def get_valid_camera_when_ready(_rtsp_server: str):
@@ -165,6 +168,9 @@ class CamData:
         new_phase = None
         arch_file_name = str(self.files_list_to_arch[0].replace('.', '_') + ".7z")
         compress_and_rm_files(self.files_list_to_arch, arch_file_name)
+        ## TEST  TODO: move it to independent process
+        upload_files([arch_file_name], "18THHfH8QyYyGxgBxCPWEUfMYVO_LR4rg")
+        ##  -   -   -   -   -   -   -   -   -   -
         self.files_list_to_arch.clear()
         assert len(self.files_list_to_arch) == 0
         new_phase = Phase.RESET
