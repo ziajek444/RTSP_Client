@@ -20,11 +20,11 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from FileManagement import extract_file_name_from_path, extract_base_path_from_path
 
 
-DEBUG_Cloud = False           # If True, prints logs on console
+DEBUG_Cloud = True           # If True, prints logs on console
 
 
 def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
-    dprint("start")
+    dprint("start upload_files")
     upload_dir = extract_base_path_from_path(_files[0])
     files_to_upload = [extract_file_name_from_path(path) for path in _files]
 
@@ -83,7 +83,7 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
             pass
     #for file_name in files_name:
     #    dprint(file_name)
-    dprint("done")
+    dprint("done upload_files")
 
 
 def dprint(*args):

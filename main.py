@@ -45,7 +45,10 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
             phase = cam_data.save_clip_phase()
 
         if phase == Phase.COMPRESS:
-            phase = cam_data.compress_phase(_disabled=True)
+            phase = cam_data.compress_phase(_compress_disabled=False)
+
+        if phase == Phase.UPLOAD:
+            phase = cam_data.upload_phase()
 
         if phase == Phase.RESET:
             phase = cam_data.reset_phase()
@@ -63,5 +66,5 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
 
 if __name__ == "__main__":
     rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
-    fail = main_loop(rtsp_server, "betsy4")
+    fail = main_loop(rtsp_server, "Leo")
     print(fail)

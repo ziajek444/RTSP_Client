@@ -39,7 +39,7 @@ class Recorder:
             self.frameContainersList.clear()
         return clip_fill_name_path
 
-    def build_clip_with_duration_b(self, _con_b_clip_duration: float, _directory="default"):
+    def build_clip_with_duration_b(self, _con_b_clip_duration: float, _directory="default", _limit_min: float = 1.0, _limit_max: float = 1024.0):
         recorded = cv2.VideoWriter()
         try:
             biggest_container_len = 0
@@ -49,7 +49,7 @@ class Recorder:
                     biggest_container_len = con_len
             assert biggest_container_len > 0
             assert _con_b_clip_duration > 0
-            fps = biggest_container_len / _con_b_clip_duration
+            fps = clamp(biggest_container_len / _con_b_clip_duration, _limit_min, _limit_max)
 
             if not dir_exists(_directory):
                 create_dir(_directory)

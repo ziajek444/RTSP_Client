@@ -11,5 +11,6 @@ class Phase(Enum):
     SAVE_CLIP = 6
     RESET = 7
     COMPRESS = 8
+    UPLOAD = 9
 
 

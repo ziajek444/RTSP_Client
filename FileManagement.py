@@ -42,6 +42,14 @@ def extract_base_path_from_path(path_to_file: str):
     return os.path.dirname(path_to_file)
 
 
+def extract_extension_from_path(path_to_file: str):
+    return os.path.splitext(path_to_file)[1]
+
+
+def extract_path_without_extension(path_to_file: str):
+    return os.path.splitext(path_to_file)[0]
+
+
 # TODO
 def get_all_files_in_dir(dir: str, expected_ext: str = None):
     if isinstance(expected_ext, type(None)):

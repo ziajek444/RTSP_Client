@@ -1,4 +1,6 @@
 import cv2
+
+from FileManagement import extract_path_without_extension
 from Phase import Phase
 import time
 from motionDetection import motion_detection_mask, sum_from_period, put_text_on_image
@@ -9,12 +11,13 @@ from CompressFile import compress_and_rm_files
 from preview import play_preview, close_preview, open_preview_window
 ## TEST
 from Cloud import upload_files
+import threading
 ##  -   -   -   -   -   -   -   -   -   -
 
 
-DEBUG = False           # If True, prints logs on console
-CONTAINER_A_LEN = 50    # Default 100
-CONTAINER_B_LEN = 100    # Default is 900
+DEBUG = True           # If True, prints logs on console
+CONTAINER_A_LEN = 30    # Default 100
+CONTAINER_B_LEN = 600    # Default is 900
 
 
 def get_valid_camera_when_ready(_rtsp_server: str):
@@ -88,15 +91,17 @@ class CamData:
 
         ## motion detection
         self.frames_diff = None
-        self.ACCURACY = 11000.0
+        self.ACCURACY = 5000.0
 
         ## compress clip
         self.clip_full_path = None
         self.CLIPS_IN_ARCH = 4
         self.files_list_to_arch = list()
+        self.arch_file_name = None
 
         ## cloud data
         self.dir_id = None
+        self.files_to_upload = list()
 
     def capture_phase(self):
         dprint("CAPTURE")
@@ -160,7 +165,8 @@ class CamData:
         self.recorder.add_frame_container(self.container_B)
         #clip_full_path = self.recorder.build_clip(self.source_name + "_dir")
         # feature: time elapsed during rec only container_B
-        clip_full_path = self.recorder.build_clip_with_duration_b(self.con_B_clip_duration, self.source_name + "_dir")
+        clip_full_path = self.recorder.build_clip_with_duration_b(self.con_B_clip_duration, self.source_name + "_dir",
+                                                                  19.99, 61.0)
         if isinstance(clip_full_path, type(None)):
             new_phase = Phase.RESET
         else:
@@ -171,22 +177,34 @@ class CamData:
                 new_phase = Phase.RESET
         return new_phase
 
-    def compress_phase(self, _disabled=False):
+    def compress_phase(self, _compress_disabled=False):
         dprint("COMPRESS")
         new_phase = None
-        arch_file_name = str(self.files_list_to_arch[0].replace('.', '_') + ".7z")
-        if not _disabled:
-            compress_and_rm_files(self.files_list_to_arch, arch_file_name)
-        ## TEST  TODO: move it to independent process
+        self.arch_file_name = str(extract_path_without_extension(self.files_list_to_arch[0])) + ".7z"
+        if not _compress_disabled:
+            compress_and_rm_files(self.files_list_to_arch, self.arch_file_name)
             if self.dir_id:
-                upload_files([arch_file_name], self.dir_id)
+                self.files_to_upload = [self.arch_file_name].copy()
+            else:
+                self.files_to_upload = list()
         else:
             if self.dir_id:
-                upload_files(self.files_list_to_arch, self.dir_id)
-        ##  -   -   -   -   -   -   -   -   -   -
+                self.files_to_upload = self.files_list_to_arch.copy()
+            else:
+                self.files_to_upload = list()
 
         self.files_list_to_arch.clear()
         assert len(self.files_list_to_arch) == 0
+        new_phase = Phase.UPLOAD
+        return new_phase
+
+    def upload_phase(self):
+        dprint("UPLOAD")
+        new_phase = None
+        if len(self.files_to_upload) > 0:
+            upload_th = threading.Thread(name='upload_th', target=upload_files,
+                                         args=(self.files_to_upload, self.dir_id,))
+            upload_th.start()
         new_phase = Phase.RESET
         return new_phase
 

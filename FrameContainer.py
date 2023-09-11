@@ -26,6 +26,8 @@ class FrameContainer:
     def clear_container_list(self):
         self.full = False
         self.frame_obj_list.clear()
+        while len(self.frame_obj_list) != 0:
+            self.frame_obj_list.clear()
 
     def is_full(self):
         return self.full
