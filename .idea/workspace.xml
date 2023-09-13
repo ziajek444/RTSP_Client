@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/simple_logs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simple_logs.py" beforeDir="false" afterPath="$PROJECT_DIR$/simple_logs.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +22,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectId" id="2TlSrGVuhEHRWhl41mNl9tYYDuk" />
   <component name="PropertiesComponent">
@@ -249,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694467740033</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Add simple logs">
+      <created>1694551968347</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1694551968348</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -279,7 +289,8 @@
     <MESSAGE value="Add uploading files to cloud" />
     <MESSAGE value="Add setup data&#10;Try new time calculate&#10;No compress try&#10;Video builder is crashing" />
     <MESSAGE value="Add upload phase&#10;Add some fixes for fps calculating&#10;Still fps is calculating poorly (I will try to use double timers)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add upload phase&#10;Add some fixes for fps calculating&#10;Still fps is calculating poorly (I will try to use double timers)" />
+    <MESSAGE value="Add simple logs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add simple logs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,112 +1,109 @@
 import logging
 import os
 from logging.handlers import RotatingFileHandler
-import traceback
 
-pycharm_pwd_start = os.path.curdir
-pycharm_pwd_start = os.path.join(pycharm_pwd_start, "newfile.log")
+__logger_dir = "logs/"
+__pycharm_pwd_start = os.path.curdir
+__pycharm_pwd_start = os.path.join(__pycharm_pwd_start, __logger_dir)
+if not os.path.exists(__pycharm_pwd_start):
+    os.mkdir(__pycharm_pwd_start)
+__pycharm_pwd_start = os.path.join(__pycharm_pwd_start, "camlogger.log")
 
-idx = 1
-temp_log_to_rm = pycharm_pwd_start + f".{idx}"
-while os.path.exists(temp_log_to_rm):
-    idx += 1
-    os.remove(temp_log_to_rm)
-    temp_log_to_rm = pycharm_pwd_start + f".{idx}"
+__idx = 1
+__temp_log_to_rm = __pycharm_pwd_start + f".{__idx}"
+while os.path.exists(__temp_log_to_rm):
+    __idx += 1
+    os.remove(__temp_log_to_rm)
+    __temp_log_to_rm = __pycharm_pwd_start + f".{__idx}"
 
-with open(pycharm_pwd_start, 'w'):
+with open(__pycharm_pwd_start, 'w'):
     pass
 
-logger = logging.getLogger("dupa")  # Rotating Log
-logger.setLevel(logging.DEBUG)
-rot_handler = RotatingFileHandler(pycharm_pwd_start, maxBytes=1024*1024*100,  # 100MB
-                              backupCount=1)
-formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(filename)s] [%(funcName)s] [%(message)s]',
+__DISABLED_LOGS = 51
+__ENABLED_LOGS = 10
+__MAX_LOG_BYTES = 1024 * 1024 * 10  # 10MB
+
+__logger = logging.getLogger("Rotating Log")  # Rotating Log
+__logger.setLevel(__ENABLED_LOGS)
+__rot_handler = RotatingFileHandler(__pycharm_pwd_start, maxBytes=__MAX_LOG_BYTES, backupCount=11)
+__formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(filename)s] [%(message)s]',
                               "%m-%d %H:%M:%S")
-rot_handler.setFormatter(formatter)
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.CRITICAL)
+__rot_handler.setFormatter(__formatter)
+__console_handler = logging.StreamHandler()
+__console_handler.setLevel(__DISABLED_LOGS)
 
-logger.addHandler(console_handler)
-logger.addHandler(rot_handler)
+__logger.addHandler(__console_handler)
+__logger.addHandler(__rot_handler)
 
+__TRACE = (logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG)
+__MALFUNCTION = (logging.CRITICAL, logging.ERROR, logging.DEBUG)
+__EVENT = (logging.INFO, logging.DEBUG)
+__INFO = (logging.CRITICAL, logging.ERROR, logging.INFO)
+__WARNING = (logging.CRITICAL, logging.ERROR, logging.WARNING)
+__LONG_LIFE = (logging.CRITICAL, logging.ERROR)
 
-# logging.basicConfig(filename=pycharm_pwd_start,
-#                     format='[%(asctime)s] [%(levelname)s] [%(filename)s] [%(funcName)s] [%(message)s]',
-#                     filemode='a',
-#                     level=logging.DEBUG)
-
-TRACE = (logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG)
-MALFUNCTION = (logging.CRITICAL, logging.ERROR, logging.DEBUG)
-EVENT = (logging.INFO, logging.DEBUG)
-INFO = (logging.CRITICAL, logging.ERROR, logging.INFO)
-WARNING = (logging.CRITICAL, logging.ERROR, logging.WARNING)
-LONG_LIFE = (logging.CRITICAL, logging.ERROR)
-
-specified_logging_lvls = TRACE
+__specified_logging_lvls = __TRACE
 
 
-def log_debug(*args):
-    global specified_logging_lvls
-    if logging.DEBUG in specified_logging_lvls:
-        logging._acquireLock()
-        try:
-            log_msg = " ".join(map(str, args))
-            logger.debug(log_msg)
-        finally:
-            logging._releaseLock()
+def log_debug(*args, to_console: bool = False):
+    log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.DEBUG)
+    __logger.debug(log_msg)
 
 
-def log_info(*args):
-    global specified_logging_lvls
-    if logging.INFO in specified_logging_lvls:
-        logging._acquireLock()
-        try:
-            log_msg = " ".join(map(str, args))
-            logger.info(log_msg)
-        finally:
-            logging._releaseLock()
+def log_info(*args, to_console: bool = False):
+    log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.INFO)
+    __logger.info(log_msg)
 
 
-def log_warning(*args):
-    global specified_logging_lvls
-    if logging.WARNING in specified_logging_lvls:
+def log_warning(*args, to_console: bool = False):
+    log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.WARNING)
+    __logger.warning(log_msg)
+
+
+def log_error(*args, to_console: bool = False):
+    log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.ERROR)
+    __logger.error(log_msg)
+
+
+def log_critical(*args, to_console: bool = False):
+    log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.CRITICAL)
+    __logger.critical(log_msg)
+
+
+def __log_wrapper(*args, _to_console: bool = False, logging_level: int):
+    global __specified_logging_lvls
+    if logging_level in __specified_logging_lvls:
         log_msg = " ".join(map(str, args))
-        logger.warning(log_msg)
+        if _to_console and __console_handler.level != __ENABLED_LOGS:
+            __console_handler.setLevel(__ENABLED_LOGS)
+        if not _to_console and __console_handler.level != __DISABLED_LOGS:
+            __console_handler.setLevel(__DISABLED_LOGS)
+    return log_msg
 
 
-
-def log_error(*args):
-    global specified_logging_lvls
-    if logging.ERROR in specified_logging_lvls:
-        log_msg = " ".join(map(str, args))
-        logger.error(log_msg)
-
-
-def log_critical(*args):
-    global specified_logging_lvls
-    if logging.CRITICAL in specified_logging_lvls:
-        log_msg = " ".join(map(str, args))
-        logger.critical(log_msg)
-
-
-def asd_logging():
-    # logging.debug('This is a debug message')
-    # logging.info('This is an info message')
-    # logging.warning('This is a warning message')
-    # logging.error('This is an error message')
-    # logging.critical('This is a critical message')
-    # log_debug("custom logs log_debug")
-    # log_info("custom logs log_info")
-    # log_warning("custom logs log_warning")
-    # log_error("custom logs log_error")
-    # log_critical("custom logs log_critical")
-    for e in range(40000):
+def __test_logging():
+    __rot_handler.maxBytes = 1000000
+    assert os.path.exists(__pycharm_pwd_start + ".1") is False
+    for e in range(2000):
         log_debug("custom logger log_debug ", e)
         log_info("custom logger log_info ", e)
         log_warning("custom logger log_warning ", e)
         log_error("custom logger log_error ", e)
-        #log_critical("custom logger log_critical ", e)
+        log_critical("custom logger log_critical ", e)
+    assert os.path.exists(__pycharm_pwd_start) is True
+    assert os.path.exists(__pycharm_pwd_start + ".1") is False
+    for e in range(2000, 10000):
+        log_debug("custom logger log_debug ", e)
+        log_info("custom logger log_info ", e)
+        log_warning("custom logger log_warning ", e)
+        log_error("custom logger log_error ", e)
+        log_critical("custom logger log_critical ", e)
+    assert os.path.exists(__pycharm_pwd_start) is True
+    assert os.path.exists(__pycharm_pwd_start + ".1") is True
+    __rot_handler.maxBytes = __MAX_LOG_BYTES
 
 
-asd_logging()
-print("file size: ", os.path.getsize(pycharm_pwd_start))
+if __name__ == "__main__":
+    print("test simple_logs")
+    __test_logging()
+    print("pass")

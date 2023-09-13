@@ -4,7 +4,7 @@ main loop contains all features necessary to infinite recording loop
 
 from cam_features import *
 from Phase import Phase
-import json
+
 from setup_data import is_setup_valid
 
 
@@ -12,12 +12,8 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
     # init
     dprint("init")
     phase = Phase.CAPTURE
-    setup_data = None
-    with open("setup.json") as setup_json_file:
-        setup_data = json.load(setup_json_file)
-    if not is_setup_valid(setup_data):
-        print("Invalid setup.json file")
-        exit(-1)
+    setup_data = None asd
+
 
     cam_data = CamData(_rtsp_server, _source_name)
     cam_data.set_dir_id(setup_data["parent_directory"])
