@@ -1,6 +1,7 @@
 import py7zr
 import os
 from FileManagement import dir_exists, extract_file_name_from_path, extract_base_path_from_path
+from simple_logs import log_info
 
 
 def compress_files(path_to_file_list: list, arch_path_to_file: str):
@@ -30,7 +31,7 @@ def compress_and_rm_files(path_to_file_list: list, arch_path_to_file: str):
 
 
 if __name__ == "__main__":
-    print("testing Compress file py7zr")
+    log_info("testing Compress file py7zr", to_console=True)
     pwd = os.getcwd() + "\\"
     test_dir = pwd + "test_dir\\"
     archive_name = "Archive.7z"
@@ -63,4 +64,4 @@ if __name__ == "__main__":
     assert dir_exists(arch_path_to_file) is True
     assert dir_exists(test_clip_path_to_file) is False
 
-    print("done")
+    log_info("done", to_console=True)

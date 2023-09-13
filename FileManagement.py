@@ -1,5 +1,7 @@
 import os
 
+from simple_logs import log_info
+
 
 def create_dir(_newDir: str):
     parenDir = os.getcwd()
@@ -62,7 +64,7 @@ def get_all_files_in_dir(dir: str, expected_ext: str = None):
 
 
 if __name__ == "__main__":
-    print("FileManagement.py testing ")
+    log_info("FileManagement.py testing ", to_console=True)
 
     assert dir_exists("dumm") is False
     assert 0 == create_dir("dumm")
@@ -116,4 +118,4 @@ if __name__ == "__main__":
     assert extract_base_path_from_path(
         "C:\\Users\\user_name\\Desktop\\Directory\\sub_directory\\file_name") == "C:\\Users\\user_name\\Desktop\\Directory\\sub_directory"
 
-    print("PASS")
+    log_info("PASS", to_console=True)

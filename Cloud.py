@@ -9,7 +9,6 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 '''
 
 import os
-import io
 import os.path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -18,13 +17,11 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from FileManagement import extract_file_name_from_path, extract_base_path_from_path
-
-
-DEBUG_Cloud = True           # If True, prints logs on console
+from simple_logs import log_error, log_debug, log_info, log_critical
 
 
 def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
-    dprint("start upload_files")
+    log_debug("start upload_files")
     upload_dir = extract_base_path_from_path(_files[0])
     files_to_upload = [extract_file_name_from_path(path) for path in _files]
 
@@ -38,7 +35,7 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
     creeds = None
 
     if not os.path.exists(CLIENT_SECRETS):
-        dprint("missing credentials")
+        log_critical("missing credentials")
         exit(-1)
 
     if os.path.exists(TOKEN):
@@ -74,19 +71,11 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
                                         mimetype='application/x-7z-compressed')
                 file = service.files().create(body=file_metadata, media_body=media,
                                               fields='id').execute()
-                dprint(F'File ID: {file.get("id")}')
+                log_debug(F'File ID: {file.get("id")}')
         except HttpError as http_err:
-            print(http_err)
+            log_error(http_err)
         except Exception as err:
-            print(err)
+            log_error(err)
         finally:
             pass
-    #for file_name in files_name:
-    #    dprint(file_name)
-    dprint("done upload_files")
-
-
-def dprint(*args):
-    global DEBUG_Cloud
-    if DEBUG_Cloud:
-        print(" ".join(map(str, args)))
+    log_info("done upload_files")

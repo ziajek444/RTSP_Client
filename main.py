@@ -4,16 +4,15 @@ main loop contains all features necessary to infinite recording loop
 
 from cam_features import *
 from Phase import Phase
-
-from setup_data import is_setup_valid
+from setup_data import setup_json_data
+from simple_logs import *
 
 
 def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
     # init
-    dprint("init")
+    log_info("init", to_console=True)
     phase = Phase.CAPTURE
-    setup_data = None asd
-
+    setup_data = setup_json_data()
 
     cam_data = CamData(_rtsp_server, _source_name)
     cam_data.set_dir_id(setup_data["parent_directory"])
@@ -56,7 +55,7 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
 
     # close
     cam_data.clean_up()
-    dprint("close")
+    log_critical("Error: Could not keep connection stable")
     return "Error: Could not keep connection stable"
 
 

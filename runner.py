@@ -1,5 +1,6 @@
 from multiprocessing import Process
 from main import main_loop
+from simple_logs import log_info
 
 
 def get_https_rstp_server_addr(_login, _passwd, _ip, _port):
@@ -20,7 +21,7 @@ def run(_addr_list: list):
 
 
 if __name__ == '__main__':
-    print("Start RTSP Stream")
+    log_info("Start RTSP Stream", to_console=True)
 
     rtsp_server_CAM_1 = get_https_rstp_server_addr("admin", "admin", "192.168.0.38", "4343")
     rtsp_server_CAM_2 = get_https_rstp_server_addr("admin", "admin", "192.168.0.120", "4343")
@@ -29,4 +30,4 @@ if __name__ == '__main__':
     addr_list = [rtsp_server_CAM_1, rtsp_server_CAM_2, rtsp_server_CAM_3]
     run(addr_list)
 
-    print("FIN")
+    log_info("FIN", to_console=True)
