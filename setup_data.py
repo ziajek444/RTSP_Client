@@ -1,21 +1,21 @@
 import json
 from simple_logs import log_critical
 
-
-__SETUP_KEYWORDS = dict({"parent_directory": str, "test_key": int})
+TO_CONSOLE = True       # Default False
+__SETUP_KEYWORDS = dict({"parent_directory": str, "version": float})
 
 
 def is_setup_valid(data: dict):
     if not data or not isinstance(data, dict):
-        log_critical("is_setup_valid: setup file has invalid structure")
+        log_critical("is_setup_valid: setup file has invalid structure", to_console=TO_CONSOLE)
         return False
     are_true = list(map(lambda d_obj: d_obj[0] in data.keys(), __SETUP_KEYWORDS.items()))
     if not all(are_true):
-        log_critical("is_setup_valid: missing required keywords in setup file")
+        log_critical("is_setup_valid: missing required keywords in setup file", to_console=TO_CONSOLE)
         return False
     are_true = list(map(lambda d_obj: isinstance(data[d_obj[0]], d_obj[1]), __SETUP_KEYWORDS.items()))
     if not all(are_true):
-        log_critical("is_setup_valid: values of keywords in setup file have wrong type")
+        log_critical("is_setup_valid: values of keywords in setup file have wrong type", to_console=TO_CONSOLE)
         return False
 
     return are_values_correct(data)
@@ -24,7 +24,8 @@ def is_setup_valid(data: dict):
 def are_values_correct(data: dict):
     google_drive_director_id_len = 33
     if len(data["parent_directory"]) != google_drive_director_id_len:
-        log_critical("are_values_correct: parent_directory google drive id length (33) is invalid")
+        log_critical("are_values_correct: parent_directory google drive id length (33) is invalid",
+                     to_console=TO_CONSOLE)
         return False
     return True
 

@@ -7,10 +7,12 @@ from Phase import Phase
 from setup_data import setup_json_data
 from simple_logs import *
 
+TO_CONSOLE = True       # Default True
+
 
 def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
     # init
-    log_info("init", to_console=True)
+    log_info("init", to_console=TO_CONSOLE)
     phase = Phase.CAPTURE
     setup_data = setup_json_data()
 
@@ -55,11 +57,11 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
 
     # close
     cam_data.clean_up()
-    log_critical("Error: Could not keep connection stable")
+    log_critical("Error: Could not keep connection stable", to_console=TO_CONSOLE)
     return "Error: Could not keep connection stable"
 
 
 if __name__ == "__main__":
     rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
     fail = main_loop(rtsp_server, "Leo")
-    print(fail)
+    log_critical(fail, to_console=TO_CONSOLE)

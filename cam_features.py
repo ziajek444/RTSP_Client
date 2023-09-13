@@ -14,21 +14,22 @@ from simple_logs import log_debug, log_info, log_error
 
 CONTAINER_A_LEN = 30    # Default 100
 CONTAINER_B_LEN = 600    # Default is 900
+TO_CONSOLE = True       # Default False
 
 
 def get_valid_camera_when_ready(_rtsp_server: str):
     camera = cv2.VideoCapture()
     camera.setExceptionMode(True)
     while True:
-        log_debug("get_valid_camera_when_ready")
+        log_debug("get_valid_camera_when_ready", to_console=TO_CONSOLE)
         try:
             camera.open(_rtsp_server)
-            log_info("done")
+            log_info("done", to_console=TO_CONSOLE)
             break
         except Exception as err:
-            log_info("Exception catch : [", err, ']')
+            log_info("Exception catch : [", err, ']', to_console=TO_CONSOLE)
 
-    log_info("camera connected: ", camera)
+    log_info("camera connected: ", camera, to_console=TO_CONSOLE)
     return camera
 
 
@@ -40,7 +41,7 @@ def camera_is_valid(_camera):
         else:
             isCameraOpen = False
     except Exception as err:
-        log_error("Exception catch : [", err, ']')
+        log_error("Exception catch : [", err, ']', to_console=TO_CONSOLE)
         isCameraOpen = False
     finally:
         return isCameraOpen
@@ -51,7 +52,7 @@ def save_read_frame(_camera):
     try:
         captured, current_frame = _camera.read()
     except Exception as err:
-        log_error("Exception catch : [", err, ']')
+        log_error("Exception catch : [", err, ']', to_console=TO_CONSOLE)
         current_frame = None
         _camera.release()
     finally:
@@ -94,7 +95,7 @@ class CamData:
         self.files_to_upload = list()
 
     def capture_phase(self):
-        log_debug("CAPTURE")
+        log_debug("CAPTURE", to_console=TO_CONSOLE)
         new_phase = None
         if camera_is_valid(self.camera):
             self.previous_frame = self.current_frame
@@ -102,14 +103,14 @@ class CamData:
             self.current_frame = save_read_frame(self.camera)
             new_phase = Phase.CONTAINER_A
         else:
-            log_error("error CAPTURE phase ")
+            log_error("error CAPTURE phase ", to_console=TO_CONSOLE)
             self.camera = get_valid_camera_when_ready(self.rtsp_server)
-            log_info("reconnected")
+            log_info("reconnected", to_console=TO_CONSOLE)
             new_phase = Phase.CAPTURE
         return new_phase
 
     def container_A_phase(self):
-        log_debug("CONTAINER_A")
+        log_debug("CONTAINER_A", to_console=TO_CONSOLE)
         new_phase = None
         if not isinstance(self.current_frame, type(None)) and not isinstance(self.previous_frame, type(None)):
             self.frames_diff = motion_detection_mask(self.previous_frame, self.current_frame)
@@ -125,7 +126,7 @@ class CamData:
         return new_phase
 
     def motion_detection_phase(self):
-        log_debug("MOTION_DETECTION")
+        log_debug("MOTION_DETECTION", to_console=TO_CONSOLE)
         new_phase = None
         if sum_from_period(self.container_A) > self.ACCURACY:
             new_phase = Phase.RECORD
@@ -134,7 +135,7 @@ class CamData:
         return new_phase
 
     def record_phase(self):
-        log_debug("RECORD")
+        log_debug("RECORD", to_console=TO_CONSOLE)
         new_phase = None
         self.deltaTimer = time.time()
         self.con_B_clip_duration = time.time()  # feature: time elapsed during rec only container_B
@@ -149,7 +150,7 @@ class CamData:
         return new_phase
 
     def save_clip_phase(self):
-        log_debug("SAVE_CLIP")
+        log_debug("SAVE_CLIP", to_console=TO_CONSOLE)
         new_phase = None
         self.recorder.add_frame_container(self.container_A)
         self.recorder.add_frame_container(self.container_B)
@@ -168,7 +169,7 @@ class CamData:
         return new_phase
 
     def compress_phase(self, _compress_disabled=False):
-        log_debug("COMPRESS")
+        log_debug("COMPRESS", to_console=TO_CONSOLE)
         new_phase = None
         self.arch_file_name = str(extract_path_without_extension(self.files_list_to_arch[0])) + ".7z"
         if not _compress_disabled:
@@ -189,7 +190,7 @@ class CamData:
         return new_phase
 
     def upload_phase(self):
-        log_debug("UPLOAD")
+        log_debug("UPLOAD", to_console=TO_CONSOLE)
         new_phase = None
         if len(self.files_to_upload) > 0:
             upload_th = threading.Thread(name='upload_th', target=upload_files,
@@ -199,7 +200,7 @@ class CamData:
         return new_phase
 
     def reset_phase(self):
-        log_debug("RESET")
+        log_debug("RESET", to_console=TO_CONSOLE)
         new_phase = None
         self.container_B.clear_container_list()
         self.container_A.clear_container_list()
@@ -207,7 +208,7 @@ class CamData:
         return new_phase
 
     def preview_phase(self):
-        log_debug("PREVIEW")
+        log_debug("PREVIEW", to_console=TO_CONSOLE)
         if not isinstance(self.frames_diff, type(None)) and not isinstance(self.current_frame, type(None)):
             debug_frame = self.current_frame.copy()
             debug_frame = put_text_on_image(debug_frame, str(sum_from_period(self.container_A)))
@@ -221,6 +222,6 @@ class CamData:
         open_preview_window(f"preview_window {self.source_name}")
 
     def clean_up(self):
-        log_debug("CLEAN_UP")
+        log_debug("CLEAN_UP", to_console=TO_CONSOLE)
         self.camera.release()
         close_preview()

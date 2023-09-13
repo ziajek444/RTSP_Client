@@ -19,9 +19,10 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from FileManagement import extract_file_name_from_path, extract_base_path_from_path
 from simple_logs import log_error, log_debug, log_info, log_critical
 
+TO_CONSOLE = True       # Default False
 
 def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
-    log_debug("start upload_files")
+    log_debug("start upload_files", to_console=TO_CONSOLE)
     upload_dir = extract_base_path_from_path(_files[0])
     files_to_upload = [extract_file_name_from_path(path) for path in _files]
 
@@ -35,7 +36,7 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
     creeds = None
 
     if not os.path.exists(CLIENT_SECRETS):
-        log_critical("missing credentials")
+        log_critical("missing credentials", to_console=TO_CONSOLE)
         exit(-1)
 
     if os.path.exists(TOKEN):
@@ -71,11 +72,11 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
                                         mimetype='application/x-7z-compressed')
                 file = service.files().create(body=file_metadata, media_body=media,
                                               fields='id').execute()
-                log_debug(F'File ID: {file.get("id")}')
+                log_debug(F'File ID: {file.get("id")}', to_console=TO_CONSOLE)
         except HttpError as http_err:
-            log_error(http_err)
+            log_error(http_err, to_console=TO_CONSOLE)
         except Exception as err:
-            log_error(err)
+            log_error(err, to_console=TO_CONSOLE)
         finally:
             pass
-    log_info("done upload_files")
+    log_info("done upload_files", to_console=TO_CONSOLE)

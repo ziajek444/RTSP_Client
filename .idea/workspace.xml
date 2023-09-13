@@ -4,13 +4,9 @@
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cloud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CompressFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/CompressFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FileManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/FileManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cam_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/cam_features.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/runner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simple_logs.py" beforeDir="false" afterPath="$PROJECT_DIR$/simple_logs.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +41,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.simple_logs">
+  <component name="RunManager" selected="Python.main">
     <configuration name="google_api_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -147,8 +143,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.simple_logs" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.simple_logs" />
         <item itemvalue="Python tests.pytest in simple_logs.py" />
         <item itemvalue="Python.runner" />
         <item itemvalue="Python.google_api_test" />
@@ -271,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694611279017</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="ostatnie szlify">
+      <created>1694627967222</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1694627967222</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -303,7 +306,8 @@
     <MESSAGE value="Add upload phase&#10;Add some fixes for fps calculating&#10;Still fps is calculating poorly (I will try to use double timers)" />
     <MESSAGE value="Add simple logs" />
     <MESSAGE value="fin simple_logs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fin simple_logs" />
+    <MESSAGE value="ostatnie szlify" />
+    <option name="LAST_COMMIT_MESSAGE" value="ostatnie szlify" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
