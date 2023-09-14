@@ -145,7 +145,11 @@ class CamData:
             new_frame = FrameObj(self.current_frame, self.deltaTimer, 0)
             self.deltaTimer = time.time()
             self.container_B.add_frame(new_frame)
-        self.con_B_clip_duration = time.time() - self.con_B_clip_duration
+        start_time = self.con_B_clip_duration
+        stop_time = time.time()
+        diff_time = stop_time - self.con_B_clip_duration
+        self.con_B_clip_duration = diff_time
+        log_debug(f"start time: {start_time} - fin time {stop_time} - diff time {diff_time} ", to_console=TO_CONSOLE)
         new_phase = Phase.SAVE_CLIP
         return new_phase
 

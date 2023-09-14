@@ -1,6 +1,6 @@
 import cv2
-
 from FrameContainer import FrameContainer
+
 
 THRESHOLDED_IMAGE = 1
 
@@ -26,8 +26,8 @@ def put_text_on_image(_frame, _text, _org=(50, 50)):
     thickness = 2
     image_with_text = cv2.putText(_frame, _text, org, font,
                                   fontScale, color, thickness, cv2.LINE_AA)
-
     return image_with_text
+
 
 def sum_from_period(_frameContainer: FrameContainer):
     th_len = len(_frameContainer.get_container_list())

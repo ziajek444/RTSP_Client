@@ -16,10 +16,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow, Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
-from FileManagement import extract_file_name_from_path, extract_base_path_from_path
+from FileManagement import extract_file_name_from_path, extract_base_path_from_path, dir_exists, remove_dir
 from simple_logs import log_error, log_debug, log_info, log_critical
 
 TO_CONSOLE = True       # Default False
+
 
 def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
     log_debug("start upload_files", to_console=TO_CONSOLE)
@@ -56,8 +57,8 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
         try:
             service = build("drive", "v3", credentials=creeds)
             koty_folder_id = _cloud_dir_id
-            response = service.files().list(q=f"mimeType='application/x-7z-compressed' and parents in '{koty_folder_id}'").execute()
-            #file_data = [service.files().get(fileId=file["id"]).execute() for file in response['files']]
+            response = service.files().list(
+                q=f"mimeType='application/x-7z-compressed' and parents in '{koty_folder_id}'").execute()
             file_data = response['files']
             files_name = [obj["name"] for obj in file_data]
 
@@ -80,3 +81,21 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
         finally:
             pass
     log_info("done upload_files", to_console=TO_CONSOLE)
+
+    # check if files exists on drive and rm from local
+    response = service.files().list(
+        q=f"mimeType='application/x-7z-compressed' and parents in '{koty_folder_id}'").execute()
+    file_data = response['files']
+    files_name = [obj["name"] for obj in file_data]
+    just_uploaded_files = [extract_file_name_from_path(file_path) for file_path in _files]
+    for file_from_cloud in files_name:
+        if file_from_cloud in just_uploaded_files:
+            just_uploaded_files.remove(file_from_cloud)
+            log_debug(f"Remove file: {file_from_cloud} if existing")
+            if dir_exists(os.path.join(upload_dir, file_from_cloud)):
+                log_debug(f"Removing {file_from_cloud}...")
+                remove_dir(os.path.join(upload_dir, file_from_cloud))
+            if not dir_exists(os.path.join(upload_dir, file_from_cloud)):
+                log_debug(f"File {file_from_cloud} removed !")
+
+    log_info("done remove local files", to_console=TO_CONSOLE)

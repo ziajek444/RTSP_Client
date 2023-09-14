@@ -4,9 +4,9 @@
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cloud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cam_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/cam_features.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motionDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/motionDetection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -274,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694627967222</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Next thing to do is add logs to motion detection and resolve problem with&#10;catch move vs amount of frames in container A.&#10;Second issue is fps calculating.">
+      <created>1694628719763</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1694628719763</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,13 +314,44 @@
     <MESSAGE value="Add simple logs" />
     <MESSAGE value="fin simple_logs" />
     <MESSAGE value="ostatnie szlify" />
-    <option name="LAST_COMMIT_MESSAGE" value="ostatnie szlify" />
+    <MESSAGE value="Next thing to do is add logs to motion detection and resolve problem with&#10;catch move vs amount of frames in container A.&#10;Second issue is fps calculating." />
+    <option name="LAST_COMMIT_MESSAGE" value="Next thing to do is add logs to motion detection and resolve problem with&#10;catch move vs amount of frames in container A.&#10;Second issue is fps calculating." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cloud.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>64</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="files_list_to_arch" />
         <watch expression="self.files_list_to_arch" />
+        <watch expression="_files" />
       </configuration>
     </watches-manager>
   </component>

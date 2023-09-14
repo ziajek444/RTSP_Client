@@ -1,9 +1,11 @@
 import cv2
 from datetime import date
-
 from FileManagement import dir_exists, create_dir
 from FrameContainer import FrameContainer
 import time
+from simple_logs import log_debug, log_error
+
+TO_CONSOLE = True       # Default False
 
 
 class Recorder:
@@ -50,6 +52,7 @@ class Recorder:
             assert biggest_container_len > 0
             assert _con_b_clip_duration > 0
             fps = clamp(biggest_container_len / _con_b_clip_duration, _limit_min, _limit_max)
+            log_debug(f"fps: {fps}, frames: {biggest_container_len}, duration: {_con_b_clip_duration} ", to_console=TO_CONSOLE)
 
             if not dir_exists(_directory):
                 create_dir(_directory)
@@ -62,11 +65,14 @@ class Recorder:
             for container in self.frameContainersList:
                 for frame in container:
                     recorded.write(frame.frame)
+            log_debug(f"recorded: {recorded} ", to_console=TO_CONSOLE)
         except Exception as err:
+            log_error(f"build_clip_with_duration_b, Exception {str(err)}", to_console=TO_CONSOLE)
             clip_fill_name_path = None
         finally:
             recorded.release()
             self.frameContainersList.clear()
+        log_debug(f"clip name: {clip_fill_name_path} ", to_console=TO_CONSOLE)
         return clip_fill_name_path
 
 
