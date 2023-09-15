@@ -1,7 +1,7 @@
 import json
 from simple_logs import log_critical
 
-TO_CONSOLE = True       # Default False
+TO_CONSOLE = False       # Default False
 __SETUP_KEYWORDS = dict({"parent_directory": str, "version": float})
 
 

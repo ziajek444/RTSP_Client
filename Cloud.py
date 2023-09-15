@@ -82,20 +82,47 @@ def upload_files(_files: list, _cloud_dir_id: str, _CLIENT_SECRETS='client_secre
             pass
     log_info("done upload_files", to_console=TO_CONSOLE)
 
-    # check if files exists on drive and rm from local
-    response = service.files().list(
-        q=f"mimeType='application/x-7z-compressed' and parents in '{koty_folder_id}'").execute()
-    file_data = response['files']
-    files_name = [obj["name"] for obj in file_data]
-    just_uploaded_files = [extract_file_name_from_path(file_path) for file_path in _files]
-    for file_from_cloud in files_name:
-        if file_from_cloud in just_uploaded_files:
-            just_uploaded_files.remove(file_from_cloud)
-            log_debug(f"Remove file: {file_from_cloud} if existing")
-            if dir_exists(os.path.join(upload_dir, file_from_cloud)):
-                log_debug(f"Removing {file_from_cloud}...")
-                remove_dir(os.path.join(upload_dir, file_from_cloud))
-            if not dir_exists(os.path.join(upload_dir, file_from_cloud)):
-                log_debug(f"File {file_from_cloud} removed !")
 
-    log_info("done remove local files", to_console=TO_CONSOLE)
+def get_files_from_cloud_dir_id(_cloud_dir_id: str, _CLIENT_SECRETS='client_secret_I-D.apps.googleusercontent.com.json'):
+    OAUTH2_SCOPE = ['https://www.googleapis.com/auth/drive']
+    CLIENT_SECRETS = _CLIENT_SECRETS
+    TOKEN = "token.json"
+    creeds = None
+    if not os.path.exists(CLIENT_SECRETS):
+        log_critical("missing credentials", to_console=TO_CONSOLE)
+        exit(-1)
+    if os.path.exists(TOKEN):
+        creeds = Credentials.from_authorized_user_file(TOKEN, OAUTH2_SCOPE)
+
+    if not creeds or not creeds.valid:
+        if creeds and creeds.expired and creeds.refresh_token:
+            creeds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                CLIENT_SECRETS, OAUTH2_SCOPE)
+            creeds = flow.run_local_server(port=0)
+        with open(TOKEN, 'w') as token_file:
+            token_file.write(creeds.to_json())
+    files_from_cloud = []
+    try:
+        service = build("drive", "v3", credentials=creeds)
+        response = service.files().list(
+            q=f"mimeType='application/x-7z-compressed' and parents in '{_cloud_dir_id}'").execute()
+        file_data = response['files']
+        files_from_cloud = [obj["name"] for obj in file_data]
+        log_info("Got 7z files from cloud", to_console=TO_CONSOLE)
+    except HttpError as http_err:
+        log_error("http error", to_console=TO_CONSOLE)
+        log_error(http_err, to_console=TO_CONSOLE)
+    except Exception as err:
+        log_error("Unknown error", to_console=TO_CONSOLE)
+        log_error(err, to_console=TO_CONSOLE)
+    finally:
+        pass
+
+    log_debug("Return files list: ", files_from_cloud, to_console=TO_CONSOLE)
+    return files_from_cloud
+
+
+if __name__ == "__main__":
+    print("Cloud")

@@ -7,7 +7,8 @@ __pycharm_pwd_start = os.path.curdir
 __pycharm_pwd_start = os.path.join(__pycharm_pwd_start, __logger_dir)
 if not os.path.exists(__pycharm_pwd_start):
     os.mkdir(__pycharm_pwd_start)
-__pycharm_pwd_start = os.path.join(__pycharm_pwd_start, "camlogger.log")
+
+__pycharm_pwd_start = os.path.join(__pycharm_pwd_start, f"camlogger.log")
 
 __idx = 1
 __temp_log_to_rm = __pycharm_pwd_start + f".{__idx}"
@@ -21,11 +22,11 @@ with open(__pycharm_pwd_start, 'w'):
 
 __DISABLED_LOGS = 51
 __ENABLED_LOGS = 10
-__MAX_LOG_BYTES = 1024 * 1024 * 10  # 10MB
+__MAX_LOG_BYTES = 1024 * 1024  # 1024MB
 
 __logger = logging.getLogger("Rotating Log")  # Rotating Log
 __logger.setLevel(__ENABLED_LOGS)
-__rot_handler = RotatingFileHandler(__pycharm_pwd_start, maxBytes=__MAX_LOG_BYTES, backupCount=11)
+__rot_handler = RotatingFileHandler(__pycharm_pwd_start, maxBytes=__MAX_LOG_BYTES, backupCount=10)
 __formatter = logging.Formatter(f'[%(asctime)s] [%(levelname)s] [%(filename)s] %(message)s',
                                "%m-%d %H:%M:%S")
 __rot_handler.setFormatter(__formatter)
@@ -53,27 +54,32 @@ __log_id_list = [0] * 8
 
 def log_debug(*args, to_console: bool = False):
     log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.DEBUG)
-    __logger.debug(log_msg)
+    # __logger.debug(log_msg)
+    print(log_msg)  # Logs are not handle race condition
 
 
 def log_info(*args, to_console: bool = False):
     log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.INFO)
-    __logger.info(log_msg)
+    # __logger.info(log_msg)
+    print(log_msg)  # Logs are not handle race condition
 
 
 def log_warning(*args, to_console: bool = False):
     log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.WARNING)
-    __logger.warning(log_msg)
+    # __logger.warning(log_msg)
+    print(log_msg)  # Logs are not handle race condition
 
 
 def log_error(*args, to_console: bool = False):
     log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.ERROR)
-    __logger.error(log_msg)
+    # __logger.error(log_msg)
+    print(log_msg)  # Logs are not handle race condition
 
 
 def log_critical(*args, to_console: bool = False):
     log_msg = __log_wrapper(*args, _to_console=to_console, logging_level=logging.CRITICAL)
-    __logger.critical(log_msg)
+    # __logger.critical(log_msg)
+    print(log_msg)  # Logs are not handle race condition
 
 
 def __log_wrapper(*args, _to_console: bool = False, logging_level: int):

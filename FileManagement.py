@@ -1,6 +1,8 @@
 import os
+import time
+from simple_logs import log_info, log_debug, log_error
 
-from simple_logs import log_info
+TO_CONSOLE = True      # Default False
 
 
 def create_dir(_newDir: str):
@@ -52,15 +54,62 @@ def extract_path_without_extension(path_to_file: str):
     return os.path.splitext(path_to_file)[0]
 
 
-# TODO
+def get_last_modification(file_path: str):
+    return os.path.getmtime(file_path)
+
+
 def get_all_files_in_dir(dir: str, expected_ext: str = None):
+    print(dir, expected_ext)
+    all_files = os.listdir(dir)
+    files_to_ret = []
     if isinstance(expected_ext, type(None)):
-        # => all files in passed dir
-        return None
+        files_to_ret = all_files
     else:
-        # => all files in passed dir with specified extension
-        return None
-    pass
+        for file in all_files:
+            current_ext = extract_extension_from_path(file)
+            if current_ext == expected_ext:
+                files_to_ret.append(file)
+            else:
+                print("not match ext: ", current_ext)
+    return files_to_ret
+
+
+# dir = _source_name + "_dir/"
+def rm_7z_files_older_than_s(_dir: str, duration_seconds: float):
+    all_local_files = get_all_files_in_dir(_dir, expected_ext=".7z")
+    all_files_to_rm = []
+    for local_file in all_local_files:
+        full_path = os.path.join(_dir, local_file)
+        not_modified_from_s = get_last_modification(full_path)
+        if not_modified_from_s is None:
+            continue
+        now = time.time()
+        diff = now - not_modified_from_s
+        if diff > duration_seconds:
+            all_files_to_rm.append(full_path)
+    log_debug("Files to rm: ", all_files_to_rm, to_console=TO_CONSOLE)
+
+    for file_to_rm in all_files_to_rm:
+        try:
+            log_debug("Try to remove: ", file_to_rm, "file", to_console=TO_CONSOLE)
+            os.remove(file_to_rm)
+        except Exception as err:
+            log_error("Cannot remove file: ", file_to_rm, to_console=TO_CONSOLE)
+        finally:
+            pass
+
+
+def daemon_remove_files_older_than_10min(_dir: str):
+    sec = 1.0
+    min = sec * 60
+    wait_duration = min * 10 * 2
+    while True:
+        try:
+            rm_7z_files_older_than_s(_dir, min*10)
+        except Exception as err:
+            log_error(f"Exception from rm_files_older_than_s: [{err}]", to_console=TO_CONSOLE)
+        finally:
+            time.sleep(wait_duration)
 
 
 if __name__ == "__main__":

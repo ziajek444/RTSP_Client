@@ -4,9 +4,12 @@
     <list default="true" id="e043abe0-6555-47c9-8583-33dadb427e23" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cloud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/FileManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cam_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/cam_features.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motionDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/motionDetection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simple_logs.py" beforeDir="false" afterPath="$PROJECT_DIR$/simple_logs.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +44,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="google_api_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.runner">
+    <configuration name="Cloud" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="rtsp" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -54,7 +57,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/google_api_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cloud.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,11 +146,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.runner" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.Cloud" />
         <item itemvalue="Python.simple_logs" />
         <item itemvalue="Python tests.pytest in simple_logs.py" />
-        <item itemvalue="Python.runner" />
-        <item itemvalue="Python.google_api_test" />
       </list>
     </recent_temporary>
   </component>
@@ -281,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694628719763</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update">
+      <created>1694726433171</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1694726433171</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -315,38 +325,10 @@
     <MESSAGE value="fin simple_logs" />
     <MESSAGE value="ostatnie szlify" />
     <MESSAGE value="Next thing to do is add logs to motion detection and resolve problem with&#10;catch move vs amount of frames in container A.&#10;Second issue is fps calculating." />
-    <option name="LAST_COMMIT_MESSAGE" value="Next thing to do is add logs to motion detection and resolve problem with&#10;catch move vs amount of frames in container A.&#10;Second issue is fps calculating." />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Cloud.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>22</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>64</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>65</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="files_list_to_arch" />

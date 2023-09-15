@@ -14,7 +14,7 @@ from simple_logs import log_debug, log_info, log_error
 
 CONTAINER_A_LEN = 30    # Default 100
 CONTAINER_B_LEN = 600    # Default is 900
-TO_CONSOLE = True       # Default False
+TO_CONSOLE = False       # Default False
 
 
 def get_valid_camera_when_ready(_rtsp_server: str):

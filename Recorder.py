@@ -5,7 +5,7 @@ from FrameContainer import FrameContainer
 import time
 from simple_logs import log_debug, log_error
 
-TO_CONSOLE = True       # Default False
+TO_CONSOLE = False       # Default False
 
 
 class Recorder:
@@ -57,7 +57,7 @@ class Recorder:
             if not dir_exists(_directory):
                 create_dir(_directory)
             clip_fill_name_path = _directory + "/" + self.video_prefix_name + "_[" + \
-                                  str(time.time())[-4:] + "]_fps[" + str(fps)[0:5] + ']_[' + \
+                                  str(int(time.time()))[-6:] + "]_fps[" + str(fps)[0:5] + ']_[' + \
                                   str(date.today())[-5:] + '].mp4'
             recorded = cv2.VideoWriter(clip_fill_name_path,
                                        cv2.VideoWriter_fourcc(*'MP4V'),

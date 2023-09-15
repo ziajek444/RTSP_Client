@@ -1,13 +1,15 @@
 """
 main loop contains all features necessary to infinite recording loop
 """
-
+from FileManagement import get_all_files_in_dir, get_last_modification, rm_7z_files_older_than_s, \
+    daemon_remove_files_older_than_10min
 from cam_features import *
 from Phase import Phase
 from setup_data import setup_json_data
 from simple_logs import *
+import threading
 
-TO_CONSOLE = True       # Default True
+TO_CONSOLE = False       # Default True
 
 
 def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
@@ -16,8 +18,14 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
     phase = Phase.CAPTURE
     setup_data = setup_json_data()
 
+    # cam main obj
     cam_data = CamData(_rtsp_server, _source_name)
     cam_data.set_dir_id(setup_data["parent_directory"])
+
+    # Files Garbage Collector
+    full_clip_dir = os.getcwd() + '/' + _source_name + "_dir/"
+    files_garbage_collector = threading.Thread(target=daemon_remove_files_older_than_10min, args=(full_clip_dir,))
+    files_garbage_collector.start()
 
     # preview
     PREVIEW = _preview
@@ -62,6 +70,6 @@ def main_loop(_rtsp_server: str, _source_name: str, _preview=False):
 
 
 if __name__ == "__main__":
-    rtsp_server = 'https://admin:admin@192.168.0.38:4343/video'
-    fail = main_loop(rtsp_server, "Leo")
+    rtsp_server = 'https://admin:admin@192.168.0.120:4343/video'
+    fail = main_loop(rtsp_server, "Piateczek")
     log_critical(fail, to_console=TO_CONSOLE)
